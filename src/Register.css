@@ -1,0 +1,74 @@
+.register-page {
+    background: linear-gradient(120deg, #ffffff 50%, #00A3E0 50%); /* Split background with white on top and light blue on the bottom, slightly inclined */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+}
+
+.header {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.logo {
+    max-width: 60px; /* Smaller size for the logo */
+}
+
+.header h1 {
+    font-size: 1.5rem; /* Smaller font size for Blauwtrust */
+    margin-top: 10px;
+    color: #00A3E0; /* Light blue text color */
+}
+
+.register-card {
+    background-color: #ffffff; /* White background for the card */
+    border-radius: 10px;
+    max-width: 400px; /* Increase the max width */
+    width: 100%;
+    padding: 20px; /* Add padding for better spacing */
+}
+
+.card-title {
+    color: #00A3E0; /* Light blue text color */
+}
+
+.btn-primary {
+    background-color: #00A3E0; /* Light blue background for primary button */
+    border-color: #00A3E0;
+}
+
+.btn-secondary {
+    background-color: #ffffff; /* White background for secondary button */
+    border-color: #00A3E0;
+    color: #00A3E0; /* Light blue text color */
+}
+
+.form-check-label {
+    color: #00A3E0; /* Light blue text color for the checkbox label */
+}
+
+footer {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #00A3E0; /* Light blue text color */
+}
+
+/* Custom modal styles */
+.modal-header-custom {
+    background-color: #00A3E0; /* Light blue background for modal header */
+    color: #ffffff; /* White text color for modal header */
+}
+
+.modal-body-custom {
+    background-color: #ffffff; /* White background for modal body */
+    color: #00A3E0; /* Light blue text color for modal body */
+}
+
+.modal-footer-custom {
+    background-color: #ffffff; /* White background for modal footer */
+    color: #00A3E0; /* Light blue text color for modal footer */
+}

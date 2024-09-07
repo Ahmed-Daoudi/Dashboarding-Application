@@ -1,0 +1,65 @@
+/* Global Page Styles */
+.home-page {
+  background: linear-gradient(120deg, #ffffff 50%, #00A3E0 50%);
+  /* Split background with white on top and light blue on the bottom, slightly inclined */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Header Styles */
+.header {
+  background-color: transparent; /* Make the header transparent */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px 20px;
+  color: #000000; /* Set text color to black */
+  display: flex;
+  align-items: center; /* Vertically center items */
+  justify-content: space-between; /* Distribute space between items */
+}
+
+/* For logo and header text */
+.header .logo {
+  max-width: 50px; /* Smaller size for the logo */
+}
+
+.header h5 {
+  font-size: 1.2rem; /* Adjust font size */
+  margin: 0;
+  color: #000000; /* Black text color */
+}
+
+.username {
+  color: #000000; /* Black text color */
+  font-weight: bold;
+}
+
+/* Main Content Styles */
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.card-title {
+  color: #00A3E0; /* Light blue text color */
+}
+
+/* Button Styles */
+.btn-primary {
+  background-color: #00A3E0; /* Light blue background for primary button */
+  border-color: #00A3E0;
+}
+
+.btn-secondary {
+  background-color: #ffffff; /* White background for secondary button */
+  border-color: #00A3E0;
+  color: #00A3E0; /* Light blue text color */
+}
+
+/* Footer Styles */
+footer {
+  color: #000000; /* Black text color */
+  padding: 10px;
+}
