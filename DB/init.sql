@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS login (
 
 -- Add columns for password reset functionality
 ALTER TABLE login
-ADD COLUMN resetToken VARCHAR(64),
-ADD COLUMN resetTokenExpiry DATETIME;
+ADD COLUMN verificationToken VARCHAR(64) NULL,
+ADD COLUMN verified BOOLEAN NOT NULL DEFAULT 0;
 
 
 

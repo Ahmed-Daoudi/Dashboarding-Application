@@ -6,7 +6,7 @@ function Logout({ setAuth }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.post('http://localhost:8081/logout')
+    axios.post(`${process.env.REACT_APP_API_URL}/logout`)
       .then(() => {
         setAuth(false);
         navigate('/login');

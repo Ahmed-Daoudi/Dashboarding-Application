@@ -14,13 +14,18 @@ const app = express();
 app.use(express.json());
 app.use(cors({
     origin: [process.env.CLIENT_URL], // Ensure this is the correct client URL
-    methods: ["POST", "GET" ,"UPDATE"],
+    methods: ["POST", "GET", "UPDATE"],
     credentials: true
 }));
 app.use(cookieParser());
 
+//add prefix to all routes
+const router = express.Router();
+app.use('/api', router);
+
+
 const db = mysql.createConnection({
-    host: process.env.DB_HOST, 
+    host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
@@ -40,11 +45,11 @@ const saltRounds = 10;
 const verifyUser = (req, res, next) => {
     const token = req.cookies.token;
     if (!token) {
-        return res.status(401).json({ Error: "You are not authenticated!" });
+        return res.status(401).json({Error: "You are not authenticated!"});
     } else {
         jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
             if (err) {
-                return res.status(401).json({ Error: "Token is not valid or has expired!" });
+                return res.status(401).json({Error: "Token is not valid or has expired!"});
             } else {
                 req.name = decoded.name;
                 next();
@@ -54,23 +59,23 @@ const verifyUser = (req, res, next) => {
 };
 
 // Get user info
-app.get('/api/user', verifyUser, (req, res) => {
-    return res.json({ Status: "Success", name: req.name });
+router.get('/user', verifyUser, (req, res) => {
+    return res.json({Status: "Success", name: req.name});
 });
 
 // Register user
-app.post('/register', (req, res) => {
-    const { name, email, password } = req.body;
-    
+router.post('/register', (req, res) => {
+    const {name, email, password} = req.body;
+
     // Check if the email already exists
     const checkEmailSql = "SELECT * FROM login WHERE email = ?";
     db.query(checkEmailSql, [email], (err, results) => {
         if (err) {
             console.error('Database query error:', err);
-            return res.status(500).json({ Error: "Database query error" });
+            return res.status(500).json({Error: "Database query error"});
         }
         if (results.length > 0) {
-            return res.status(409).json({ Error: "Email already exists" });
+            return res.status(409).json({Error: "Email already exists"});
         }
 
         // Proceed with registration
@@ -78,7 +83,7 @@ app.post('/register', (req, res) => {
         bcrypt.hash(password.toString(), saltRounds, (err, hash) => {
             if (err) {
                 console.error('Error hashing password:', err);
-                return res.status(500).json({ Error: "Error hashing password" });
+                return res.status(500).json({Error: "Error hashing password"});
             }
 
             const sql = "INSERT INTO login (name, email, password, verificationToken, verified) VALUES (?, ?, ?, ?, ?)";
@@ -93,14 +98,14 @@ app.post('/register', (req, res) => {
             db.query(sql, values, (err, result) => {
                 if (err) {
                     console.error('Error inserting data into database:', err);
-                    return res.status(500).json({ Error: "Insert data error in server" });
+                    return res.status(500).json({Error: "Insert data error in server"});
                 }
 
                 // Send verification email
                 const verificationLink = `${process.env.CLIENT_URL}/verify-email?token=${values[3]}`;
                 sendVerificationEmail(email, verificationLink);
 
-                return res.json({ Status: "Success" });
+                return res.json({Status: "Success"});
             });
         });
     });
@@ -108,63 +113,62 @@ app.post('/register', (req, res) => {
 
 
 // Login endpoint :app.post('/api/logout', (req, res)
-app.post('/login', (req, res) => {
-    const { email, password } = req.body;
-    const sql = "SELECT * FROM login WHERE email = ?"; 
+router.post('/login', (req, res) => {
+    const {email, password} = req.body;
+    const sql = "SELECT * FROM login WHERE email = ?";
     db.query(sql, [email], (err, results) => {
         if (err) {
             console.error('Database query error:', err);
-            return res.json({ Error: "Database query error" });
+            return res.json({Error: "Database query error"});
         }
-        if (results.length === 0) return res.json({ Error: "User not found" });
+        if (results.length === 0) return res.json({Error: "User not found"});
 
         const user = results[0];
         bcrypt.compare(password, user.password, (err, isMatch) => {
-            if (err) return res.json({ Error: "Error comparing passwords" });
-            if (!isMatch) return res.json({ Error: "Incorrect password" });
+            if (err) return res.json({Error: "Error comparing passwords"});
+            if (!isMatch) return res.json({Error: "Incorrect password"});
 
             if (!user.verified) {
-                return res.json({ Error: "Email not verified" });
+                return res.json({Error: "Email not verified"});
             }
 
             const name = user.name;
-            const token = jwt.sign({ name }, process.env.JWT_SECRET, { expiresIn: '1d' });
-            res.cookie('token', token, { httpOnly: true });
+            const token = jwt.sign({name}, process.env.JWT_SECRET, {expiresIn: '1d'});
+            res.cookie('token', token, {httpOnly: true});
 
-            return res.json({ Status: "Success" });
+            return res.json({Status: "Success"});
         });
     });
 });
 
 // Logout endpoint
-app.post('/logout', (req, res) => {
-    res.clearCookie('token');
-    return res.json({ Status: "Success" });
+router.post('/logout', (req, res) => {
+    res.clearCookie('token', {httpOnly: true});
+    return res.json({Status: "Success"});
 });
 
-app.get('/api/verify-email', (req, res) => {
+router.get('/verify-email', (req, res) => {
     console.log('Verify email endpoint hit');
-    const { token } = req.query;
+    const {token} = req.query;
     console.log('Received token:', token);
     if (!token) {
-        return res.status(400).json({ Error: "Verification token is missing" });
+        return res.status(400).json({Error: "Verification token is missing"});
     }
 
     const sql = "UPDATE login SET verified = 1 WHERE verificationToken = ?";
     db.query(sql, [token], (err, result) => {
         if (err) {
             console.error('Error updating verification status:', err);
-            return res.status(500).json({ Error: "Internal server error during verification" });
+            return res.status(500).json({Error: "Internal server error during verification"});
         }
 
         if (result.affectedRows === 0) {
-            return res.status(400).json({ Error: "Invalid or expired token" });
+            return res.status(400).json({Error: "Invalid or expired token"});
         }
 
-        return res.json({ Status: "Email verified successfully" });
+        return res.json({Status: "Email verified successfully"});
     });
 });
-
 
 
 // Function to send verification email
