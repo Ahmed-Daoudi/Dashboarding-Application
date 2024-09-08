@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        axios.get('http://localhost:8081/')
+        axios.get(`${process.env.REACT_APP_API_URL}`)
             .then(response => {
                 if (response.data.Status === 'Success') {
                     setUser({ name: response.data.name });
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const logout = () => {
-        axios.post('http://localhost:8081/logout').then(() => {
+        axios.post(`${process.env.REACT_APP_API_URL}/logout`).then(() => {
             setUser(null);
         }).catch(err => console.log(err));
     };
