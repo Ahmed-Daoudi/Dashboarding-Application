@@ -36,7 +36,7 @@ function Home({ setSelectedDashboard }) {
           setName(res.data.name);
         } else {
           setAuth(false);
-          navigate('/login');
+          // navigate('/login');
         }
       })
       .catch(err => {
