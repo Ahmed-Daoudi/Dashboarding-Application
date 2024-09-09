@@ -10,14 +10,20 @@ COPY . .
 
 RUN npm run build
 
-FROM node:16-alpine
+# Stage 2: Serve the app using Nginx
+FROM nginx:1.27.0
 
-WORKDIR /app
+# Remove default Nginx static resources
+RUN rm -rf /usr/share/nginx/html/*
 
-COPY --from=build /app/build /app/build
+# Copy the React build output to Nginx's default directory
+COPY --from=build /app/build /usr/share/nginx/html
 
-RUN npm install -g serve
+# Copy nginx config file
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 3000
+# Expose port 80
+EXPOSE 80
 
-CMD ["serve", "-s", "build", "-l", "3000"]
+# Start Nginx server
+CMD ["nginx", "-g", "daemon off;"]
