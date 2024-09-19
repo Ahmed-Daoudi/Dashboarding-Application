@@ -34,7 +34,7 @@ function Register() {
             return;
         }
         //axios.post(`/api/register`, values)
-        axios.post(`${process.env.REACT_APP_API_URL}/register`, values)
+        axios.post(`/api/register`, values)
             .then(res => {
                 if(res.data.Status === 'Success'){
                     navigate('/login');

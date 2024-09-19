@@ -18,7 +18,8 @@ function Login() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post(`${process.env.REACT_APP_API_URL}/login`, values)
+        //${process.env.REACT_APP_API_URL}
+        axios.post(`/api/login`, values)
             .then(res => {
                 if (res.data.Status === 'Success') {
                     navigate('/');

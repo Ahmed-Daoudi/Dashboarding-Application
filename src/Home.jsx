@@ -15,7 +15,7 @@ function Home({ setSelectedDashboard }) {
   const [name, setName] = useState('');
 
   const handleLogout = () => {
-    axios.post(`${process.env.REACT_APP_API_URL}/logout`)
+    axios.post(`/api/logout`)
       .then(res => {
         if (res.data.Status === "Success") {
           logout(); // Call the logout method from useAuth to clear user context
@@ -29,7 +29,7 @@ function Home({ setSelectedDashboard }) {
   };
 
   useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/user`, { withCredentials: true })
+    axios.get(`/api/user`, { withCredentials: true })
       .then(res => {
         if (res.data.Status === "Success") {
           setAuth(true);

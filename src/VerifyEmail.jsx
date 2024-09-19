@@ -14,7 +14,7 @@ const VerifyEmail = () => {
             return;
         }
     
-        axios.get(`${process.env.REACT_APP_API_URL}/verify-email?token=${token}`)
+        axios.get(`/api/verify-email?token=${token}`)
             .then(response => {
                 setStatus('Email verified successfully! You can now log in.');
             })
