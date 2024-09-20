@@ -4,22 +4,22 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Dashboard.css'; // Import custom CSS for dashboards
 import logo from './images/logo.jpg'; // Import the logo image
 
-
 function DashboardDisplay({ selectedDashboard }) {
     const navigate = useNavigate();
 
+    // Updated dashboard URLs with the new third dashboard
     const dashboardUrls = {
-        dashboard1: "https://app.powerbi.com/view?r=eyJrIjoiYjI2MzFiNjUtY...",
-        dashboard2: "https://app.powerbi.com/view?r=eyJrIjoiZTU4ZjFiNjUtY...",
-        dashboard3: "https://app.powerbi.com/view?r=eyJrIjoiYzEzMzFiNjUtY..."
+        dashboard1: "https://app.powerbi.com/reportEmbed?reportId=fc66fbed-1eb0-48ca-a4ba-0ba92a46400d&autoAuth=true&ctid=53b0da51-f10c-4e0a-8700-da86cb1d5e6a", // NightRun Dashboard
+        dashboard2: "https://app.powerbi.com/reportEmbed?reportId=9afafd58-eff0-4152-87f6-a5d8047f5201&autoAuth=true&ctid=53b0da51-f10c-4e0a-8700-da86cb1d5e6a", // Activitie Dashboard
+        dashboard3: "https://app.powerbi.com/reportEmbed?reportId=3a33b729-ac58-4afe-9090-5098b5bc8c5b&autoAuth=true&ctid=53b0da51-f10c-4e0a-8700-da86cb1d5e6a"  // Pipeline Dashboard
     };
 
     return (
         <div className="dashboard-page">
-            <header className="header d-flex justify-content-between align-items-center p-3">
+            <header className="header">
                 <div className="d-flex align-items-center">
-                <img src={logo} alt="Blauwtrust Logo" className="logo" />
-                <h5 className="mt-2">Blauwtrust</h5>
+                    <img src={logo} alt="Blauwtrust Logo" className="logo" />
+                    <h5 className="mt-2">  Blauwtrust</h5>
                 </div>
                 <div className="d-flex align-items-center">
                     <button className="btn btn-secondary ms-3" onClick={() => navigate('/')}>Back to Home</button>
@@ -30,11 +30,11 @@ function DashboardDisplay({ selectedDashboard }) {
                 <div className="dashboard-embed">
                     <iframe
                         title={`Dashboard ${selectedDashboard.slice(-1)}`}
-                        width="100%"
-                        height="600px"
+                        width="1400" // Adjusted width
+                        height="820" // Adjusted height
                         src={dashboardUrls[selectedDashboard]}
                         frameBorder="0"
-                        allowFullScreen={true}
+                        allowFullScreen
                     ></iframe>
                 </div>
             </main>
