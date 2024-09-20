@@ -19,7 +19,7 @@ function DashboardDisplay({ selectedDashboard }) {
             <header className="header">
                 <div className="d-flex align-items-center">
                     <img src={logo} alt="Blauwtrust Logo" className="logo" />
-                    <h5 className="mt-2">  Blauwtrust</h5>
+                    <h5 className="mt-2">Blauwtrust</h5>
                 </div>
                 <div className="d-flex align-items-center">
                     <button className="btn btn-secondary ms-3" onClick={() => navigate('/')}>Back to Home</button>
